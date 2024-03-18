@@ -1,4 +1,4 @@
-# Project Name
+# Login service
 
 This project is a React application that includes a login and password reset functionality. It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
