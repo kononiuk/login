@@ -30,6 +30,10 @@ const Title = styled.h1`
   margin: 80px auto 0;
 `;
 
+/**
+ * Component for the login block
+ * @component
+ */
 const LoginBlockComponent: React.FC = () => {
   const [step, setStep] = useState<string>('login');
 

@@ -4,10 +4,21 @@ import validator from 'validator';
 import ApiController from '../../Api/ApiController';
 import { Input, Button, ErrorMessage } from '../../utils/StyledComponents';
 
+/**
+ * Interface for ForgotPasswordProps
+ * @interface
+ * @property {React.Dispatch<React.SetStateAction<string>>} setStep - Function to set the current step
+ */
 interface ForgotPasswordProps {
   setStep: React.Dispatch<React.SetStateAction<string>>;
 }
 
+/**
+ * Interface for FormErrors
+ * @interface
+ * @property {string} email - Error message for the email field
+ * @property {string} response - Error message for the API response
+ */
 interface FormErrors {
   email: string;
   response: string;
@@ -37,10 +48,19 @@ const ResetButton = styled(Button)`
   }
 `;
 
+/**
+ * Component for resetting the password
+ * @component
+ * @param {ForgotPasswordProps} props - Props for the component
+ */
 const ForgotPassword: React.FC<ForgotPasswordProps> = ({ setStep }) => {
   const [email, setEmail] = useState<string>('');
   const [formErrors, setFormErrors] = useState<FormErrors>({ email: '', response: ''});
 
+  /**
+   * Handles the form submission
+   * @param {React.FormEvent} e - The form event
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     let errors = { email: '', response: '' };
@@ -69,6 +89,10 @@ const ForgotPassword: React.FC<ForgotPasswordProps> = ({ setStep }) => {
     }
   };
 
+  /**
+   * Handles the form reset
+   * @param {React.FormEvent} e - The form event
+   */
   const handleReset = (e: React.FormEvent) => {
     e.preventDefault();
     setEmail('');

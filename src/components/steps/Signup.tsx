@@ -5,14 +5,30 @@ import validator from 'validator';
 import SocialLoginButton from '../../utils/SocialLoginButton';
 import { Input, Button, ErrorMessage } from '../../utils/StyledComponents';
 
+/**
+ * Interface for LoginProps
+ * @interface
+ * @property {React.Dispatch<React.SetStateAction<string>>} setStep - Function to set the current step
+ */
 interface LoginProps {
   setStep: React.Dispatch<React.SetStateAction<string>>;
 }
 
+/**
+ * Interface for EmailValidWrapperProps
+ * @interface
+ * @property {boolean} $shown - Whether the email is valid
+ */
 interface EmailValidWrapperProps {
   $shown: boolean;
 }
 
+/**
+ * Interface for FormErrors
+ * @interface
+ * @property {string} email - Error message for the email field
+ * @property {string} password - Error message for the password field
+ */
 interface FormErrors {
   email: string;
   password: string;
@@ -96,6 +112,11 @@ const Link = styled.button`
   text-decoration: underline;
 `;
 
+/**
+ * Component for logging in
+ * @component
+ * @param {LoginProps} props - Props for the component
+ */
 const Login: React.FC<LoginProps> = ({ setStep }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
@@ -103,11 +124,19 @@ const Login: React.FC<LoginProps> = ({ setStep }) => {
   const [password, setPassword] = useState<string>('');
   const [formErrors, setFormErrors] = useState<FormErrors>({ email: '', password: '' });
 
+  /**
+   * Toggles the visibility of the password
+   * @param {React.MouseEvent<HTMLButtonElement>} e - The mouse event
+   */
   const togglePasswordVisibility = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
 
+  /**
+   * Handles the form submission
+   * @param {React.FormEvent} e - The form event
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     let errors = { email: '', password: '' };

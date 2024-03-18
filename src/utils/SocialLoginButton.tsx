@@ -1,6 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
+/**
+ * Interface for SocialLoginButtonProps
+ * @interface
+ * @property {string} src - The source of the image
+ * @property {string} alt - The alt text for the image
+ * @property {string} provider - The name of the social login provider
+ */
 interface SocialLoginButtonProps {
   src: string;
   alt: string;
@@ -25,6 +32,11 @@ const SocialLoginButtonLogo = styled.img`
   height: 1.125rem;
 `;
 
+/**
+ * Component for a social login button
+ * @component
+ * @param {SocialLoginButtonProps} props - Props for the component
+ */
 const SocialLoginButton: React.FC<SocialLoginButtonProps> = ({ src, alt, provider }) => {
   const handleClick = () => {
     console.log(`SSO with ${provider}`);

@@ -1,5 +1,10 @@
 import styled from 'styled-components';
 
+/**
+ * Interface for ErrorMessageProps
+ * @interface
+ * @property {number} $length - The length of the error message
+ */
 interface ErrorMessageProps {
   $length: number;
 }
@@ -32,6 +37,11 @@ export const Button = styled.button`
   }
 `;
 
+/**
+ * Styled component for an error message
+ * @component
+ * @param {ErrorMessageProps} props - Props for the component
+ */
 export const ErrorMessage = styled.span<ErrorMessageProps>`
   color: #FF5C5C;
   font-size: 0.875rem;

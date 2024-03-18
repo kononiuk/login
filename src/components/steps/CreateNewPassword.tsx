@@ -4,10 +4,21 @@ import styled from 'styled-components';
 import validator from 'validator';
 import { Input, Button, ErrorMessage } from '../../utils/StyledComponents';
 
+/**
+ * Interface for CreateNewPasswordProps
+ * @interface
+ * @property {React.Dispatch<React.SetStateAction<string>>} setStep - Function to set the current step
+ */
 interface CreateNewPasswordProps {
   setStep: React.Dispatch<React.SetStateAction<string>>;
 }
 
+/**
+ * Interface for FormErrors
+ * @interface
+ * @property {string} password - Error message for the password field
+ * @property {string} confirmPassword - Error message for the confirm password field
+ */
 interface FormErrors {
   password: string;
   confirmPassword: string;
@@ -53,17 +64,30 @@ const HiddenInput = styled(Input)`
   display: none;
 `;
 
+/**
+ * Component for resetting the password
+ * @component
+ * @param {CreateNewPasswordProps} props - Props for the component
+ */
 const ForgotPassword: React.FC<CreateNewPasswordProps> = ({ setStep }) => {
   const [formErrors, setFormErrors] = useState<FormErrors>({ password: '', confirmPassword: ''});
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
 
+  /**
+   * Toggles the visibility of the password
+   * @param {React.MouseEvent<HTMLButtonElement>} e - The mouse event
+   */
   const togglePasswordVisibility = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setShowPassword(!showPassword);
   };
 
+  /**
+   * Handles the form submission
+   * @param {React.FormEvent} e - The form event
+   */
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     let errors = { password: '', confirmPassword: '' };
