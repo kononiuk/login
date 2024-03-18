@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import styled from 'styled-components';
 import validator from 'validator';
+import ApiController from '../../Api/ApiController';
 import SocialLoginButton from '../../utils/SocialLoginButton';
 import { Input, Button, ErrorMessage } from '../../utils/StyledComponents';
 
@@ -16,7 +17,11 @@ interface EmailValidWrapperProps {
 interface FormErrors {
   email: string;
   password: string;
+  response: string;
 }
+
+const BASE_URL = 'https://auth-qa.qencode.com';
+const LOGIN_ENDPOINT = '/v1/auth/login';
 
 const SocialLogin = styled.div`
   align-items: center;
@@ -106,7 +111,7 @@ const Login: React.FC<LoginProps> = ({ setStep }) => {
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [formErrors, setFormErrors] = useState<FormErrors>({ email: '', password: '' });
+  const [formErrors, setFormErrors] = useState<FormErrors>({ email: '', password: '', response: ''});
 
   const togglePasswordVisibility = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -115,7 +120,7 @@ const Login: React.FC<LoginProps> = ({ setStep }) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let errors = { email: '', password: '' };
+    let errors = { email: '', password: '', response: ''};
   
     if (!email.length) {
       errors.email = 'Email is required';
@@ -137,7 +142,14 @@ const Login: React.FC<LoginProps> = ({ setStep }) => {
     setFormErrors(errors);
   
     if (!errors.email && password.length && !errors.password) {
-      console.log('Email and password are valid');
+      ApiController.postData(`${BASE_URL}${LOGIN_ENDPOINT}`, { email, password })
+        .then(data => {
+          console.log('Login successful:', data);
+        })
+        .catch(error => {
+          setFormErrors({ ...errors, response: error.detail });
+          console.error('Login failed:', error);
+        });
     } else {
       setFormErrors(errors);
     }
@@ -157,16 +169,17 @@ const Login: React.FC<LoginProps> = ({ setStep }) => {
         <EmailValidWrapper $shown={isEmailValid}>
           <PasswordWrapper>
             <Input type={showPassword ? 'text' : 'password'} placeholder="Password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <ErrorMessage $length={formErrors.password.length}>{formErrors.password}</ErrorMessage>
             <PasswordToggle onClick={togglePasswordVisibility}>
               {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
             </PasswordToggle>
           </PasswordWrapper>
+          <ErrorMessage $length={formErrors.password.length}>{formErrors.password}</ErrorMessage>
           <ForgotPasswordWrapper>
             <Link onClick={(e) => {e.preventDefault(); setStep('forgotPassword')}}>Forgot your password?</Link>
           </ForgotPasswordWrapper>
         </EmailValidWrapper>
         <SubmitButton type="submit">Log in to Qencode</SubmitButton>
+        <ErrorMessage $length={formErrors.response.length}>{formErrors.response}</ErrorMessage>
       </Form>
       <CallToAction>
         <span>Is your company new to Qencode? </span>
